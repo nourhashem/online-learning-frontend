@@ -7,6 +7,9 @@ import SignUp from 'containers/SignUp';
 import Dashboard from 'containers/Dashboard';
 import Home from 'containers/Home';
 import Class from 'containers/Class';
+import ClassWork from 'containers/Class/ClassWork';
+import ClassChat from 'containers/Class/ClassChat';
+import ClassStream from 'containers/Class/ClassStream';
 import Main from 'containers/Main';
 
 const App = () => {
@@ -28,7 +31,11 @@ const App = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route index element={<Main />} />
-        <Route path="class" element={<Class />} />
+        <Route path="class/:classId" element={<Class />}>
+          <Route index element={<ClassStream />} />
+          <Route path="chat" element={<ClassChat />} />
+          <Route path="work" element={<ClassWork />} />
+        </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
