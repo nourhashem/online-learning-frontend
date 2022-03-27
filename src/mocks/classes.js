@@ -8,6 +8,26 @@ const classes = [
     instructor: 'Ali Bazzi',
     campus: 'Beirut',
     uuid: '0cc8d763-e29c-4978-ae01-da0318a99f52',
+    posts: [
+      {
+        owner: {
+          name: 'Ali Bazzi',
+          email: 'abazzi@gmail.com',
+        },
+        title: 'Hello testing the post feature',
+        body: 'This is the post body',
+        attachments: [],
+      },
+      {
+        owner: {
+          name: 'Ali Bazzi',
+          email: 'abazzi@gmail.com',
+        },
+        title: 'This is the second post',
+        body: 'Hello everyone',
+        attachments: [],
+      },
+    ],
   },
   {
     name: 'CENG400',

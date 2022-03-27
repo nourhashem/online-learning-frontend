@@ -1,7 +1,8 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
 import mockClasses from 'mocks/classes';
 import React from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
+import ClassHeader from './ClassHeader';
 
 const Class = () => {
   const { classId } = useParams();
@@ -18,9 +19,7 @@ const Class = () => {
   };
   return (
     <Box>
-      <Typography sm={{ position: 'absolute' }} variant="h4">
-        {myClass.fullName}
-      </Typography>
+      <ClassHeader data={myClass} />
       <Tabs centered value={tabIndex} onChange={handleChangeTab}>
         <Tab
           LinkComponent={Link}
