@@ -1,5 +1,14 @@
+import { Box } from '@mui/system';
 import React from 'react';
 
-const c = () => <h1>Class Chat</h1>;
+const ClassChat = () => {
+	return (
+		<Box className="classChat">
+			<Box>
+				<h1>Chat</h1>
+			</Box>
+		</Box>
+	);
+};
 
-export default c;
+export default ClassChat;

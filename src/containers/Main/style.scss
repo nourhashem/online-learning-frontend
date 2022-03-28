@@ -1,0 +1,8 @@
+.classGrid {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	& > div {
+		max-width: 1600px;
+	}
+}
