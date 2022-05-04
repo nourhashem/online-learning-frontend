@@ -46,6 +46,7 @@ export default function SignUp() {
       password: data.get('password'),
     }).then((response) => {
       if (!response.error) {
+        localStorage.setItem('token', response.jwt);
         navigate('/dashboard');
       }
     });

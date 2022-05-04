@@ -1,17 +1,21 @@
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ClassPosts from './ClassPosts';
-import mockClasses from 'mocks/classes';
+import postAPI from '../../api/post';
 import { useParams } from 'react-router-dom';
 
 const ClassStream = () => {
   const { classId } = useParams();
-  const myClass = mockClasses.find((c) => c.uuid === classId);
-  console.log({ myClass });
+  const [classPosts, setClassPosts] = useState([]);
+  useEffect(() => {
+    postAPI.getAll(classId).then(({ posts }) => {
+      setClassPosts(posts);
+    });
+  }, [classId]);
   return (
     <Box className="classStream">
       <Box>
-        <ClassPosts data={myClass.posts || []} />
+        <ClassPosts data={classPosts || []} />
       </Box>
     </Box>
   );

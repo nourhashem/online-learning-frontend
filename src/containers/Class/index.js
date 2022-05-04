@@ -1,12 +1,13 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import mockClasses from 'mocks/classes';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import ClassHeader from './ClassHeader';
 
 const Class = () => {
   const { classId } = useParams();
-  const myClass = mockClasses.find((c) => c.uuid === classId);
+  const classrooms = useSelector((state) => state.classroom.classrooms);
+  const myClass = classrooms.find((c) => c.uuid === classId);
   const path = document.location.pathname;
   const startingIndex = path.includes('work')
     ? 1

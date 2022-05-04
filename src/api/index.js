@@ -5,12 +5,12 @@ const request = (method, url, reqParams) => {
   let data = {};
   let params = {};
   if (method === 'get') {
-    params = {
-      params: reqParams,
-    };
+    params = reqParams;
   } else {
     data = reqParams;
   }
+  const token = localStorage.getItem('token') || '';
+  const authorizationHeader = `Bearer ${token}`;
   return new Promise((resolve, reject) => {
     axios
       .request({
@@ -19,6 +19,9 @@ const request = (method, url, reqParams) => {
         url,
         data,
         params,
+        headers: {
+          Authorization: authorizationHeader,
+        },
       })
       .then((response) => {
         if (response.statusText === 'OK') resolve(response.data);
