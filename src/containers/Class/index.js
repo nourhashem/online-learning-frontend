@@ -5,9 +5,9 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import ClassHeader from './ClassHeader';
 
 const Class = () => {
-  const { classId } = useParams();
+  const { classroomUuid } = useParams();
   const classrooms = useSelector((state) => state.classroom.classrooms);
-  const myClass = classrooms.find((c) => c.uuid === classId);
+  const myClass = classrooms.find((c) => c.uuid === classroomUuid);
   const path = document.location.pathname;
   const startingIndex = path.includes('work')
     ? 1
@@ -24,7 +24,7 @@ const Class = () => {
       <Tabs centered value={tabIndex} onChange={handleChangeTab}>
         <Tab
           LinkComponent={Link}
-          to={`/dashboard/class/${classId}`}
+          to={`/dashboard/class/${classroomUuid}`}
           label="Stream"
         />
         <Tab LinkComponent={Link} to="work" label="Your Work" />

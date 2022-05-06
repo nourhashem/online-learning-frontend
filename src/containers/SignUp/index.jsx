@@ -12,6 +12,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import UserAPI from 'api/user';
 import { useNavigate } from 'react-router-dom';
+import appActions from 'store/actions/app';
+import { useDispatch } from 'react-redux';
 
 function Copyright(props) {
   return (
@@ -34,6 +36,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -47,6 +50,10 @@ export default function SignUp() {
     }).then((response) => {
       if (!response.error) {
         localStorage.setItem('token', response.jwt);
+        dispatch({
+          type: appActions.signIn,
+          user: response.user,
+        });
         navigate('/dashboard');
       }
     });

@@ -1,7 +1,7 @@
 import appActions from 'store/actions/app';
 
 const initialState = {
-  authenticated: true,
+  authenticated: false,
   user: null,
 };
 

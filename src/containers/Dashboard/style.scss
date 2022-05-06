@@ -1,4 +1,10 @@
 .dashboard {
-	background-color: #fafafa;
-	min-height: 100vh;
+  background-color: #fafafa;
+  min-height: 100vh;
+}
+
+.fab {
+  position: fixed !important;
+  bottom: 20px;
+  right: 20px;
 }

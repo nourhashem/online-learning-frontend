@@ -17,7 +17,7 @@ const Main = () => {
         classrooms,
       });
     });
-  }, []);
+  }, [dispatch]);
   return (
     <div className="classGrid">
       <Grid
