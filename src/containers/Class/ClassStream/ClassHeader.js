@@ -7,7 +7,6 @@ import './style.scss';
 const ClassHeader = (props) => {
   const { fullName, name, instructor } = props.data;
   console.log(props.data);
-  // console.log(styles);
   return (
     <Box className="classHeader">
       <Box

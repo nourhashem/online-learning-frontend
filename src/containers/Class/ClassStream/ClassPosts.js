@@ -4,7 +4,7 @@ import ClassPost from './ClassPost';
 import CreatePost from './CreatePost';
 import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import postAPI from '../../api/post';
+import postAPI from 'api/post';
 
 const ClassPosts = (props) => {
   const { classroomUuid } = useParams();

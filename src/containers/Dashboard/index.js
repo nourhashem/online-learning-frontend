@@ -17,15 +17,19 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Badge, Fab } from '@mui/material';
+import { Badge, Fab, Menu, MenuItem } from '@mui/material';
 import {
   AccountCircle,
   Notifications as NotificationsIcon,
   Add as AddIcon,
 } from '@mui/icons-material';
 import './style.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import appActions from 'store/actions/app';
+import AddClassroomDialog from 'containers/Main/AddClassroomDialog';
 
 const drawerWidth = 240;
 
@@ -97,7 +101,10 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const navigate = useNavigate();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const [openAddClassroomDilaog, setOpenAddClassroomDialog] =
+    React.useState(false);
   const user = useSelector((state) => state.app.user);
   const location = useLocation();
   const showFab =
@@ -109,6 +116,32 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseAddClassroomDialog = () => {
+    setOpenAddClassroomDialog(false);
+  };
+
+  const handleOpenAddClassroomDialog = () => {
+    setOpenAddClassroomDialog(true);
+  };
+
+  const [profileMenuAnchorEl, setProfileMenuAnchorEl] = React.useState(null);
+  const openProfileMenu = Boolean(profileMenuAnchorEl);
+  const handleProfileClick = (event) => {
+    setProfileMenuAnchorEl(event.currentTarget);
+  };
+  const handleProfileClose = () => {
+    setProfileMenuAnchorEl(null);
+  };
+
+  const handleSignOut = () => {
+    setProfileMenuAnchorEl(null);
+    localStorage.clear();
+    dispatch({
+      type: appActions.signOut,
+    });
+    navigate('/signin');
   };
 
   return (
@@ -153,11 +186,33 @@ export default function MiniDrawer() {
               edge="end"
               aria-label="account of current user"
               aria-haspopup="true"
-              onClick={() => {}}
+              onClick={handleProfileClick}
               color="inherit"
             >
               <AccountCircle />
             </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={profileMenuAnchorEl}
+              open={openProfileMenu}
+              onClose={handleProfileClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleProfileClose}>
+                <ListItemIcon>
+                  <ManageAccountsIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Account Settings</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleSignOut}>
+                <ListItemIcon>
+                  <LogoutIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Sign Out</ListItemText>
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </AppBar>
@@ -220,15 +275,23 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 1 }}>
         <DrawerHeader />
         <Outlet />
       </Box>
       {showFab && (
-        <Fab color="primary" className="fab">
+        <Fab
+          onClick={handleOpenAddClassroomDialog}
+          color="primary"
+          className="fab"
+        >
           <AddIcon />
         </Fab>
       )}
+      <AddClassroomDialog
+        open={openAddClassroomDilaog}
+        onClose={handleCloseAddClassroomDialog}
+      />
     </Box>
   );
 }

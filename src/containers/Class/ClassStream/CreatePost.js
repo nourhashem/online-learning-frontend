@@ -3,9 +3,9 @@ import { Box } from '@mui/system';
 import AttachFileIcon from '@mui/icons-material/AttachFileRounded';
 import InsertLinkIcon from '@mui/icons-material/InsertLinkRounded';
 import React, { useState } from 'react';
-import './style.scss';
-import postAPI from '../../api/post';
+import postAPI from 'api/post';
 import { useParams } from 'react-router-dom';
+import './style.scss';
 
 const CreatePost = ({ setClassroomPosts }) => {
   const { classroomUuid } = useParams();

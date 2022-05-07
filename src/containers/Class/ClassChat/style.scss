@@ -1,0 +1,71 @@
+.classChat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  & > div {
+    border-radius: 10px;
+    width: 100%;
+    max-width: 1100px;
+    .chatContainer {
+      border: 1px solid #d0d0d0;
+      border-radius: 4px 4px 26px 26px;
+      padding: 10px;
+      height: calc(100vh - 170px);
+      .messagesContainer {
+        height: calc(100% - 62px);
+        overflow-y: auto;
+        .noMessages {
+          color: #909090;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .message {
+          padding: 5px;
+          display: flex;
+          flex-direction: row;
+          margin-top: 5px;
+          .messageAvatar {
+          }
+          .messageContent {
+            display: flex;
+            flex-direction: column;
+            margin-left: 7px;
+            .messageHeader {
+              display: flex;
+              .messageOwner {
+                font-weight: bold;
+                margin: 0;
+              }
+              .messageDate {
+                display: flex;
+                flex-direction: column;
+                padding-left: 10px;
+                color: #909090;
+                font-size: 12px;
+                margin: 0;
+                justify-content: center;
+              }
+            }
+            .messageBody {
+            }
+          }
+        }
+      }
+      .chatInput {
+        margin-top: 10px;
+        box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+        border-radius: 26px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        & > div {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
