@@ -50,6 +50,7 @@ export default function SignUp() {
     }).then((response) => {
       if (!response.error) {
         localStorage.setItem('token', response.jwt);
+        localStorage.setItem('userUuid', response.user.uuid);
         dispatch({
           type: appActions.signIn,
           user: response.user,

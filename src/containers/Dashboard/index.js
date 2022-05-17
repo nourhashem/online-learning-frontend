@@ -30,6 +30,7 @@ import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import appActions from 'store/actions/app';
 import AddClassroomDialog from 'containers/Main/AddClassroomDialog';
+import Socket from 'socket';
 
 const drawerWidth = 240;
 
@@ -109,6 +110,15 @@ export default function MiniDrawer() {
   const location = useLocation();
   const showFab =
     location.pathname === '/dashboard' && user.role === 'instructor';
+
+  React.useEffect(() => {
+    Socket.on('connect', () => {
+      console.log('SOCKET CONNECTED', Socket.getInstance().id);
+    });
+    Socket.on('message', (data) => {
+      console.log('message', data);
+    });
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);

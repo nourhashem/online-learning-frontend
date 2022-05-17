@@ -31,4 +31,5 @@ const request = (method, url, reqParams) => {
   });
 };
 
+export const SOCKET_URL = 'ws://localhost:5000/';
 export default request;
