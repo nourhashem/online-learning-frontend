@@ -39,56 +39,6 @@ const ClassChat = () => {
         date: new Date().toISOString(),
         owner: 'Nour Hachem',
       },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
     ]);
     // setMessages([]);
   }, []);

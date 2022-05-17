@@ -15,6 +15,7 @@
       .messagesContainer {
         height: calc(100% - 62px);
         overflow-y: auto;
+        margin-left: 5px;
         .noMessages {
           color: #909090;
           height: 100%;

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ClassCard = (props) => {
   const navigate = useNavigate();
-  const { name, fullName, section, instructor, campus, semester, time, uuid } =
+  const { code, title, section, instructor, campus, semester, schedule, uuid } =
     props.data;
   const openClassURL = (classUuid) => () =>
     navigate(`/dashboard/class/${classUuid}`);
@@ -40,14 +40,14 @@ const ClassCard = (props) => {
               variant="h5"
               component="div"
             >
-              {fullName}
+              {title}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
               style={{ fontWeight: 'bold' }}
             >
-              {name}
+              {code}
             </Typography>
           </Box>
           <Typography style={{ fontWeight: 'bold' }} variant="body1">
@@ -63,7 +63,7 @@ const ClassCard = (props) => {
           </Box>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="body2" color="text.secondary">
-              {time}
+              {schedule}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {campus}

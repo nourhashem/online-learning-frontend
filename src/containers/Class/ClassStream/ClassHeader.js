@@ -5,7 +5,7 @@ import { Box } from '@mui/system';
 import './style.scss';
 
 const ClassHeader = (props) => {
-  const { fullName, name, instructor } = props.data;
+  const { title, code, instructor } = props.data;
   console.log(props.data);
   return (
     <Box className="classHeader">
@@ -14,8 +14,8 @@ const ClassHeader = (props) => {
           backgroundImage: `url(${CoverImage})`,
         }}
       >
-        <Typography variant="h1">{fullName}</Typography>
-        <Typography variant="h2">{`${name} - ${instructor}`}</Typography>
+        <Typography variant="h1">{title}</Typography>
+        <Typography variant="h2">{`${code} - ${instructor}`}</Typography>
       </Box>
     </Box>
   );
