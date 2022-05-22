@@ -8,7 +8,7 @@ import './style.scss';
 
 const ClassStream = () => {
   const { classroomUuid } = useParams();
-  const classrooms = useSelector((state) => state.classroom.classrooms);
+  const classrooms = useSelector((state) => state.classroom.list);
   const myClass = classrooms.find((c) => c.uuid === classroomUuid);
   return (
     <Box className="classStream">

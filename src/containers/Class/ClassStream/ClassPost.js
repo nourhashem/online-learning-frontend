@@ -16,6 +16,7 @@ import EditIcon from '@mui/icons-material/EditRounded';
 import DeleteIcon from '@mui/icons-material/DeleteRounded';
 import Utils from 'utils';
 import React from 'react';
+import Moment from 'react-moment';
 
 const ClassPost = (props) => {
   const [menuAnchorEl, setMenuAnchorEl] = React.useState(null);
@@ -36,7 +37,11 @@ const ClassPost = (props) => {
           </Avatar>
           <Box className="postMetadata">
             <Typography variant="body1">{post.owner}</Typography>
-            <Typography variant="body2">{post.date}</Typography>
+            <Typography variant="body2">
+              <Moment interval={0} format="DD/MM/YYYY hh:mm A">
+                {post.date}
+              </Moment>
+            </Typography>
           </Box>
         </Box>
         <Box>

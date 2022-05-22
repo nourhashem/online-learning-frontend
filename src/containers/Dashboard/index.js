@@ -31,6 +31,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import appActions from 'store/actions/app';
 import AddClassroomDialog from 'containers/Main/AddClassroomDialog';
 import Socket from 'socket';
+import events from 'socket/events';
+import classroomActions from 'store/actions/classroom';
 
 const drawerWidth = 240;
 
@@ -107,18 +109,35 @@ export default function MiniDrawer() {
   const [openAddClassroomDilaog, setOpenAddClassroomDialog] =
     React.useState(false);
   const user = useSelector((state) => state.app.user);
+  const authenticated = useSelector((state) => state.app.authenticated);
   const location = useLocation();
   const showFab =
     location.pathname === '/dashboard' && user.role === 'instructor';
 
   React.useEffect(() => {
-    Socket.on('connect', () => {
-      console.log('SOCKET CONNECTED', Socket.getInstance().id);
-    });
-    Socket.on('message', (data) => {
-      console.log('message', data);
-    });
-  }, []);
+    console.log('in useEffect', { authenticated });
+    if (authenticated) {
+      Socket.on(events.CONNECT, () => {
+        console.log('SOCKET CONNECTED', Socket.getInstance().id);
+      });
+      Socket.on(events.MESSAGE, (data) => {
+        console.log('message', data);
+        dispatch({
+          type: classroomActions.addMessage,
+          classroomUuid: data.classroomUuid,
+          message: data,
+        });
+      });
+    } else {
+      Socket.removeAllListeners();
+      Socket.disconnect();
+    }
+    return () => {
+      console.log('Unmounting');
+      Socket.removeAllListeners();
+      Socket.disconnect();
+    };
+  }, [dispatch, authenticated]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -147,9 +166,13 @@ export default function MiniDrawer() {
 
   const handleSignOut = () => {
     setProfileMenuAnchorEl(null);
-    localStorage.clear();
+    sessionStorage.clear();
+    sessionStorage.clear();
     dispatch({
       type: appActions.signOut,
+    });
+    dispatch({
+      type: classroomActions.signOut,
     });
     navigate('/signin');
   };

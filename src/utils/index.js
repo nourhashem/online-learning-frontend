@@ -10,6 +10,7 @@ const calculateAvatar = (name) => {
 };
 
 const stringToColor = (string) => {
+  if (!string) return 'blue';
   let hash = 0;
   let i;
 

@@ -49,8 +49,8 @@ function SignIn() {
     }).then((response) => {
       if (response.authenticated) {
         setError('');
-        localStorage.setItem('token', response.jwt);
-        localStorage.setItem('userUuid', response.user.uuid);
+        sessionStorage.setItem('token', response.jwt);
+        sessionStorage.setItem('userUuid', response.user.uuid);
         dispatch({
           type: appActions.signIn,
           user: response.user,

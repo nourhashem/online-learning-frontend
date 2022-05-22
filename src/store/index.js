@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import appReducer from 'store/reducers/app';
 import classroomReducer from 'store/reducers/classroom';
 import { loadState } from './utils';
@@ -9,11 +10,9 @@ const rootReducer = combineReducers({
 });
 
 const preloadedState = loadState();
+const devtoolsCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composedEnhancer = devtoolsCompose(applyMiddleware(thunk));
 
-const store = createStore(
-  rootReducer,
-  preloadedState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = createStore(rootReducer, preloadedState, composedEnhancer);
 
 export default store;

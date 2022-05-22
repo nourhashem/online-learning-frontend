@@ -49,8 +49,8 @@ export default function SignUp() {
       password: data.get('password'),
     }).then((response) => {
       if (!response.error) {
-        localStorage.setItem('token', response.jwt);
-        localStorage.setItem('userUuid', response.user.uuid);
+        sessionStorage.setItem('token', response.jwt);
+        sessionStorage.setItem('userUuid', response.user.uuid);
         dispatch({
           type: appActions.signIn,
           user: response.user,

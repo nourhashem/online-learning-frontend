@@ -1,8 +1,8 @@
 import { io } from 'socket.io-client';
 import { SOCKET_URL } from 'api';
+import uuid from 'react-uuid';
 
-const token = localStorage.getItem('token');
-const userUuid = localStorage.getItem('userUuid');
+import events from './events';
 
 class Socket {
   constructor() {
@@ -11,7 +11,9 @@ class Socket {
   }
 
   initialize = () => {
-    if (this._instance) return;
+    const token = sessionStorage.getItem('token');
+    const userUuid = sessionStorage.getItem('userUuid');
+    if (this._instance || !userUuid) return;
     const socket = io(SOCKET_URL, {
       auth: {
         token,
@@ -22,8 +24,13 @@ class Socket {
       path: '/socket',
       transports: ['websocket'],
     });
-    Socket._instance = socket;
+    this._instance = socket;
     return socket;
+  };
+
+  disconnect = () => {
+    if (!this._instance) return;
+    this._instance.disconnect();
   };
 
   getInstance = () => {
@@ -36,6 +43,33 @@ class Socket {
   on = (event, callback) => {
     if (!this._instance) this.initialize();
     this._instance.on(event, callback);
+  };
+
+  off = (event, callback) => {
+    if (!this._instance) return;
+    this._instance.off(event, callback);
+  };
+
+  removeAllListeners = (event) => {
+    if (!this._instance) return;
+    if (event) this._instance.removeAllListeners(event);
+    else this._instance.removeAllListeners();
+  };
+
+  emit = (event, data) => {
+    if (!this._instance) this.initialize();
+    this._instance.emit(event, data);
+  };
+
+  sendMessage = (data) => {
+    const userUuid = sessionStorage.getItem('userUuid');
+    this.emit(events.SEND_MESSAGE, {
+      ...data,
+      uuid: uuid(),
+      ownerUuid: userUuid,
+      timestamp: Date.now(),
+      date: new Date().toISOString(),
+    });
   };
 }
 

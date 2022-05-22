@@ -15,9 +15,7 @@ export default function appReducer(state = initialState, action) {
       };
     case appActions.signOut:
       return {
-        ...state,
-        authenticated: false,
-        user: null,
+        ...initialState,
       };
     default:
       return state;

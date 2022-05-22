@@ -8,10 +8,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import classroomAPI from 'api/classroom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import classroomActions from 'store/actions/classroom';
 
 const AddClassroomDialog = ({ open, onClose }) => {
   const user = useSelector((state) => state.app.user);
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [code, setCode] = useState('');
   const [semester, setSemester] = useState('');
@@ -57,6 +59,12 @@ const AddClassroomDialog = ({ open, onClose }) => {
     );
     if (response.message === 'success') {
       console.log('successfully added', response);
+      const { classrooms } = await classroomAPI.getAll();
+      console.log('new', { classrooms });
+      dispatch({
+        type: classroomActions.setAll,
+        classrooms,
+      });
     } else console.log('failure');
     setCampus('');
     setCode('');
@@ -65,6 +73,7 @@ const AddClassroomDialog = ({ open, onClose }) => {
     setSemester('');
     setTitle('');
     setStudentsEmails('');
+    onClose();
   };
   return (
     <Dialog open={open} onClose={onClose}>

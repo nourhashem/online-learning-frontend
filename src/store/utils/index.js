@@ -2,7 +2,7 @@ const KEY = 'redux';
 
 const loadState = () => {
   try {
-    const serializedState = localStorage.getItem(KEY);
+    const serializedState = sessionStorage.getItem(KEY);
     if (!serializedState) return undefined;
     return JSON.parse(serializedState);
   } catch (e) {
@@ -13,7 +13,7 @@ const loadState = () => {
 const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem(KEY, serializedState);
+    sessionStorage.setItem(KEY, serializedState);
   } catch (e) {
     console.error(e);
   }

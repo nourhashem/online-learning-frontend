@@ -1,17 +1,17 @@
 import { Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ClassCard from './ClassCard';
 import classroomAPI from '../../api/classroom';
 import './style.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classroomActions from 'store/actions/classroom';
 
 const Main = () => {
-  const [classrooms, setClassrooms] = useState([]);
+  const classrooms = useSelector((state) => state.classroom.list);
+  console.log(classrooms);
   const dispatch = useDispatch();
   useEffect(() => {
     classroomAPI.getAll().then(({ classrooms }) => {
-      setClassrooms(classrooms);
       dispatch({
         type: classroomActions.setAll,
         classrooms,

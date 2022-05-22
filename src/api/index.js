@@ -9,7 +9,7 @@ const request = (method, url, reqParams) => {
   } else {
     data = reqParams;
   }
-  const token = localStorage.getItem('token') || '';
+  const token = sessionStorage.getItem('token') || '';
   const authorizationHeader = `Bearer ${token}`;
   return new Promise((resolve, reject) => {
     axios

@@ -7,52 +7,128 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Utils from 'utils';
 import ChatMessage from './ChatMessage';
 import './style.scss';
 import useEventListener from 'hooks/useEventListener';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import messagesAPI from 'api/message';
+import classroomActions from 'store/actions/classroom';
+import Socket from 'socket';
+import events from 'socket/events';
 
 const ClassChat = () => {
-  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
+  const { classroomUuid } = useParams();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.app.user);
+  const messages = useSelector(
+    (state) => state.classroom.messages[classroomUuid]
+  );
+  const offsetRef = useRef(0);
+  const [scroll, setScroll] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
+  const containerRef = useRef();
+
+  const scrollToBottom = (smooth) => {
+    containerRef.current &&
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: smooth ? 'smooth' : 'auto',
+      });
+  };
+
+  // useEffect(() => {
+  //   console.log('chat mounted');
+  //   setTimeout(() => {
+  //     scrollToBottom(false);
+  //   }, 200);
+  // }, []);
+
+  useEffect(() => {
+    const handler = (data) => {
+      if (scroll) scrollToBottom(true);
+    };
+    Socket.on(events.MESSAGE, handler);
+    return () => {
+      Socket.off(events.MESSAGE, handler);
+    };
+  }, [scroll]);
+
+  useEffect(() => {
+    messagesAPI
+      .getAll(classroomUuid, offsetRef.current)
+      .then(({ messages }) => {
+        console.log({ messages });
+        offsetRef.current = offsetRef.current + messages.length;
+        scrollToBottom(false);
+        setTimeout(() => {
+          scrollToBottom(false);
+        }, 200);
+        dispatch({
+          type: classroomActions.addMessages,
+          classroomUuid,
+          messages,
+        });
+      });
+  }, [classroomUuid, dispatch]);
+
+  useEffect(() => {
+    if (loadMore) {
+      const oldHeight = containerRef.current.scrollHeight;
+      messagesAPI
+        .getAll(classroomUuid, offsetRef.current)
+        .then(({ messages }) => {
+          console.log({ messages });
+          offsetRef.current = offsetRef.current + messages.length;
+          if (scroll) scrollToBottom(true);
+          else {
+            setTimeout(() => {
+              containerRef.current.scrollTop =
+                containerRef.current.scrollHeight - oldHeight;
+            }, 0);
+          }
+          dispatch({
+            type: classroomActions.addMessages,
+            classroomUuid,
+            messages,
+          });
+        });
+    }
+  }, [loadMore, classroomUuid, dispatch, scroll]);
+
   useEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       sendMessage();
     }
   });
-  useEffect(() => {
-    setMessages([
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-      {
-        message: 'Hello',
-        date: new Date().toISOString(),
-        owner: 'Nour Hachem',
-      },
-    ]);
-    // setMessages([]);
-  }, []);
+
+  useEventListener(
+    'scroll',
+    () => {
+      const scroll =
+        containerRef.current &&
+        containerRef.current.scrollHeight ===
+          containerRef.current.scrollTop + containerRef.current.clientHeight;
+      setScroll(scroll);
+      const loadMore =
+        containerRef.current && containerRef.current.scrollTop === 0;
+      setLoadMore(loadMore);
+    },
+    containerRef.current
+  );
 
   const sendMessage = () => {
-    const newMessages = [
-      ...messages,
-      {
-        message,
-        date: new Date().toISOString(),
-        owner: 'Nour Hashem',
-      },
-    ];
-    setMessages(newMessages);
+    if (!message.trim()) return;
+    const messageData = {
+      message,
+      owner: `${user.firstName} ${user.lastName}`,
+      classroomUuid,
+    };
+    Socket.sendMessage(messageData);
     setMessage('');
   };
 
@@ -64,12 +140,14 @@ const ClassChat = () => {
     <Box className="classChat">
       <Box>
         <Card className="chatContainer" elevation={0}>
-          <Box className="messagesContainer">
+          <Box className="messagesContainer" ref={containerRef}>
             {messages.length === 0 && (
               <div className="noMessages">No messages yet.</div>
             )}
             {!!messages.length &&
-              messages.map((message) => <ChatMessage data={message} />)}
+              messages.map((message) => (
+                <ChatMessage key={message.uuid} data={message} />
+              ))}
           </Box>
           <Box className="chatInput">
             <Avatar
@@ -84,6 +162,7 @@ const ClassChat = () => {
               NH
             </Avatar>
             <TextField
+              autoFocus
               autoComplete="off"
               variant="standard"
               placeholder="Chat with classroom"
