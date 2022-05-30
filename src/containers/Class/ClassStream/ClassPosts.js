@@ -14,13 +14,28 @@ const ClassPosts = (props) => {
       setClassroomPosts(posts.sort((a, b) => b.date.localeCompare(a.date)));
     });
   }, [classroomUuid]);
+  const onAddComment = (postUuid) => {
+    postAPI.get(postUuid).then((res) => {
+      const { post } = res;
+      const updatedPosts = classroomPosts.filter((p) => p.uuid !== postUuid);
+      updatedPosts.push(post);
+      console.log({ updatedPosts });
+      setClassroomPosts(
+        updatedPosts.sort((a, b) => b.date.localeCompare(a.date))
+      );
+    });
+  };
   return (
     <>
       <CreatePost setClassroomPosts={setClassroomPosts} />
       <Box>
         {classroomPosts &&
           classroomPosts.map((post) => (
-            <ClassPost key={post.uuid} data={post} />
+            <ClassPost
+              key={post.uuid}
+              data={post}
+              onAddComment={onAddComment}
+            />
           ))}
       </Box>
       {classroomPosts && classroomPosts.length === 0 && (

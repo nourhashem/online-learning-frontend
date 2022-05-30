@@ -66,14 +66,81 @@
         display: flex;
         .postMetadata {
           margin-left: 15px;
+          .postTime {
+            color: #909090;
+            font-size: 12px;
+          }
         }
       }
     }
     .postBody {
-      padding: 0px 15px 20px 15px;
+      padding: 0px 15px 20px 70px;
       border-bottom: 1px solid #d0d0d0;
       .postTitle {
+        font-size: 1.5rem;
         font-weight: bold;
+      }
+      .postContent {
+        font-size: 1.2rem;
+      }
+    }
+    .commentsContainer {
+      border-bottom: 1px solid #d0d0d0;
+      .commentsHeader {
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        padding-bottom: 0px;
+        .commentIcon {
+          margin-right: 10px;
+        }
+        .commentsCount {
+          font-weight: bold;
+        }
+      }
+      .showComments {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        font-weight: bold;
+        color: #1976d2;
+        cursor: pointer;
+        filter: brightness(75%);
+      }
+      .postComments {
+        padding: 10px 30px;
+        .comment {
+          padding: 5px;
+          display: flex;
+          flex-direction: row;
+          margin-top: 5px;
+          .commentAvatar {
+          }
+          .commentContent {
+            display: flex;
+            flex-direction: column;
+            margin-left: 7px;
+            .commentHeader {
+              display: flex;
+              .commentOwner {
+                font-weight: bold;
+                margin: 0;
+              }
+              .commentDate {
+                display: flex;
+                flex-direction: column;
+                padding-left: 10px;
+                color: #909090;
+                font-size: 12px;
+                margin: 0;
+                justify-content: center;
+              }
+            }
+            .commentBody {
+            }
+          }
+        }
       }
     }
     .postFooter {

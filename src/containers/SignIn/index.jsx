@@ -117,11 +117,6 @@ function SignIn() {
             >
               Sign In
             </Button>
-            <Typography align="center">
-              <Link href="/signup" variant="body2">
-                Don't have an account? Sign Up
-              </Link>
-            </Typography>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

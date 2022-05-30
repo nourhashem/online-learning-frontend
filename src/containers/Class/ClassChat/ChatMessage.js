@@ -2,8 +2,8 @@ import { Avatar } from '@mui/material';
 import React from 'react';
 import Utils from 'utils';
 import Moment from 'react-moment';
-import Linkify from 'react-linkify';
 import './style.scss';
+import LinkifyNewTab from 'components/LinkifyNewTab';
 
 const ChatMessage = ({ data }) => {
   return (
@@ -31,7 +31,7 @@ const ChatMessage = ({ data }) => {
           </p>
         </div>
         <div className="messageBody">
-          <Linkify>{data.message}</Linkify>
+          <LinkifyNewTab>{data.message}</LinkifyNewTab>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Box } from '@mui/system';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Utils from 'utils';
 import ChatMessage from './ChatMessage';
 import './style.scss';
@@ -27,6 +27,8 @@ const ClassChat = () => {
   const messages = useSelector(
     (state) => state.classroom.messages[classroomUuid]
   );
+  const userFullName = Utils.getFullName(user);
+  const userInitials = Utils.getInitials(userFullName);
   const offsetRef = useRef(0);
   const [scroll, setScroll] = useState(false);
   const [loadMore, setLoadMore] = useState(false);
@@ -39,13 +41,6 @@ const ClassChat = () => {
         behavior: smooth ? 'smooth' : 'auto',
       });
   };
-
-  // useEffect(() => {
-  //   console.log('chat mounted');
-  //   setTimeout(() => {
-  //     scrollToBottom(false);
-  //   }, 200);
-  // }, []);
 
   useEffect(() => {
     const handler = (data) => {
@@ -124,7 +119,7 @@ const ClassChat = () => {
   const sendMessage = () => {
     if (!message.trim()) return;
     const messageData = {
-      message,
+      message: message.trim(),
       owner: `${user.firstName} ${user.lastName}`,
       classroomUuid,
     };
@@ -155,11 +150,11 @@ const ClassChat = () => {
                 width: 30,
                 height: 30,
                 fontSize: '12px',
-                backgroundColor: Utils.stringToColor('Nour Hachem'),
+                backgroundColor: Utils.stringToColor(userFullName),
                 backgroundBlendMode: 'darken',
               }}
             >
-              NH
+              {userInitials}
             </Avatar>
             <TextField
               autoFocus

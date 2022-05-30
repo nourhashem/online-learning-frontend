@@ -20,7 +20,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Badge, Fab, Menu, MenuItem } from '@mui/material';
+import { Avatar, Badge, Fab, Menu, MenuItem } from '@mui/material';
 import {
   AccountCircle,
   Notifications as NotificationsIcon,
@@ -33,6 +33,7 @@ import AddClassroomDialog from 'containers/Main/AddClassroomDialog';
 import Socket from 'socket';
 import events from 'socket/events';
 import classroomActions from 'store/actions/classroom';
+import Utils from 'utils';
 
 const drawerWidth = 240;
 
@@ -109,6 +110,8 @@ export default function MiniDrawer() {
   const [openAddClassroomDilaog, setOpenAddClassroomDialog] =
     React.useState(false);
   const user = useSelector((state) => state.app.user);
+  const userFullName = Utils.getFullName(user);
+  const userInitials = Utils.getInitials(userFullName);
   const authenticated = useSelector((state) => state.app.authenticated);
   const location = useLocation();
   const showFab =
@@ -219,10 +222,20 @@ export default function MiniDrawer() {
               edge="end"
               aria-label="account of current user"
               aria-haspopup="true"
-              onClick={handleProfileClick}
               color="inherit"
+              onClick={handleProfileClick}
             >
-              <AccountCircle />
+              <Avatar
+                sx={{
+                  width: 30,
+                  height: 30,
+                  fontSize: '12px',
+                  backgroundColor: Utils.stringToColor(userFullName),
+                  backgroundBlendMode: 'darken',
+                }}
+              >
+                {userInitials}
+              </Avatar>
             </IconButton>
             <Menu
               id="basic-menu"
