@@ -47,7 +47,7 @@ const AddClassroomDialog = ({ open, onClose }) => {
   const addClassroom = async () => {
     const instructorUuid = user.uuid;
     const studentsEmailsArray = studentsEmails.split(';');
-    const response = await classroomAPI.add(
+    const response = await classroomAPI.add({
       title,
       code,
       semester,
@@ -55,8 +55,8 @@ const AddClassroomDialog = ({ open, onClose }) => {
       instructorUuid,
       schedule,
       section,
-      studentsEmailsArray
-    );
+      studentsEmailsArray,
+    });
     if (response.message === 'success') {
       console.log('successfully added', response);
       const { classrooms } = await classroomAPI.getAll();
