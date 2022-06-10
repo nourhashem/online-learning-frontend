@@ -26,7 +26,6 @@ const QuestionAnswer = ({ type, choices, answer, onAnswer }) => {
 		onAnswer(value === '' ? value : Number(value));
 
 	const handleMultipleAnswer = ({ target: { checked, value } }) => {
-		console.log({ answer, value, checked });
 		const newAnswer = { ...answer };
 		newAnswer[value] = checked;
 		for (let i = 0; i < choices.length; i++) {
@@ -34,7 +33,6 @@ const QuestionAnswer = ({ type, choices, answer, onAnswer }) => {
 				newAnswer[i] = false;
 			}
 		}
-		console.log({ newAnswer });
 		onAnswer(newAnswer);
 	};
 

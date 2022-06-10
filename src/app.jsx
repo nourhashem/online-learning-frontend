@@ -11,35 +11,40 @@ import ClassWork from 'containers/Class/ClassWork';
 import ClassChat from 'containers/Class/ClassChat';
 import ClassStream from 'containers/Class/ClassStream';
 import Main from 'containers/Main';
+import Deliverable from 'containers/Deliverable';
 
 const App = () => {
-  const authenticated = useSelector((state) => state.app.authenticated);
-  if (!authenticated) {
-    return (
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    );
-  }
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/dashboard" element={<Dashboard />}>
-        <Route index element={<Main />} />
-        <Route path="class/:classroomUuid" element={<Class />}>
-          <Route index element={<ClassStream />} />
-          <Route path="chat" element={<ClassChat />} />
-          <Route path="work" element={<ClassWork />} />
-        </Route>
-      </Route>
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
+	const authenticated = useSelector((state) => state.app.authenticated);
+	if (!authenticated) {
+		return (
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/signin" element={<SignIn />} />
+				<Route path="/signup" element={<SignUp />} />
+				<Route path="*" element={<NotFound />} />
+			</Routes>
+		);
+	}
+	return (
+		<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/signin" element={<SignIn />} />
+			<Route path="/signup" element={<SignUp />} />
+			<Route path="/dashboard" element={<Dashboard />}>
+				<Route index element={<Main />} />
+				<Route path="class/:classroomUuid" element={<Class />}>
+					<Route index element={<ClassStream />} />
+					<Route path="chat" element={<ClassChat />} />
+					<Route path="work" element={<ClassWork />} />
+				</Route>
+				<Route
+					path="deliverable/:deliverableUuid"
+					element={<Deliverable />}
+				/>
+			</Route>
+			<Route path="*" element={<NotFound />} />
+		</Routes>
+	);
 };
 
 export default App;

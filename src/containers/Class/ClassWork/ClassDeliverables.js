@@ -4,16 +4,19 @@ import ClassDeliverable from './ClassDeliverable';
 import './style.scss';
 
 const ClassDeliverables = ({ data }) => {
-  return (
-    <>
-      {!data.length && (
-        <Box className="noDeliverables">
-          <span>No Deliverables yet.</span>
-        </Box>
-      )}
-      {!!data.length && data.map((item) => <ClassDeliverable data={item} />)}
-    </>
-  );
+	return (
+		<Box sx={{ mt: 5 }}>
+			{!data.length && (
+				<Box className="noDeliverables">
+					<span>No Deliverables yet.</span>
+				</Box>
+			)}
+			{!!data.length &&
+				data.map((item) => (
+					<ClassDeliverable key={data.uuid} data={item} />
+				))}
+		</Box>
+	);
 };
 
 export default ClassDeliverables;
