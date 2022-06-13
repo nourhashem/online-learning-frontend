@@ -23,7 +23,10 @@ const ClassDeliverable = ({ data }) => {
 	});
 	const isActive =
 		nowUnix > activationDateTime.unix() && nowUnix < endDateTime.unix();
-	const deliverableType = data.type[0].toUpperCase() + data.type.substring(1);
+	const deliverableType =
+		data && data.type
+			? data.type[0].toUpperCase() + data.type.substring(1)
+			: '';
 
 	useEffect(() => {
 		const timer = setInterval(() => {

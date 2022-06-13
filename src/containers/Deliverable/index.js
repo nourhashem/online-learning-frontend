@@ -2,6 +2,7 @@ import { Box, Button, Card, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import deliverablesAPI from 'api/deliverable';
+import attemptsAPI from 'api/attempt';
 import Countdown from 'react-countdown';
 import moment from 'moment';
 import SolvableQuestion from './SolvableQuestion';
@@ -35,14 +36,10 @@ const Deliverable = () => {
 	};
 
 	const submitDeliverable = () => {
-		navigate(`/dashboard/class/${data.classroomUuid}/work`);
-		// answers
-		// deliverablesAPI.submit(answers, deliverableUuid).then(() => {
-		// 	navigate(`/dashboard/class/${data.classroomUuid}/work`);
-		// });
+		attemptsAPI.add(answers, deliverableUuid).then(() => {
+			navigate(`/dashboard/class/${data.classroomUuid}/work`);
+		});
 	};
-
-	console.log({ answers });
 
 	return (
 		<Box className="deliverable">

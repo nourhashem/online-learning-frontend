@@ -153,6 +153,7 @@ const QuestionAnswer = ({ type, choices, answer, onAnswer }) => {
 							</FormLabel>
 							{choices.map((choice, index) => (
 								<FormControlLabel
+									key={index.toString()}
 									control={<Checkbox />}
 									label={choice}
 									value={index}
