@@ -14,6 +14,7 @@ import Question from './Question';
 
 const CreateQuestion = ({ onCancel, onDone }) => {
 	const [question, setQuestion] = useState('');
+	const [points, setPoints] = useState('');
 	const [type, setType] = useState('');
 	const [showAnswers, setShowAnswers] = useState(false);
 	const [numberChoices, setNumberChoices] = useState(2);
@@ -23,6 +24,7 @@ const CreateQuestion = ({ onCancel, onDone }) => {
 	const handleQuestionAdd = () => {
 		onDone({
 			question,
+			points,
 			type,
 			choices,
 			answer,
@@ -31,6 +33,7 @@ const CreateQuestion = ({ onCancel, onDone }) => {
 
 	const getQuestionData = () => ({
 		question,
+		points,
 		type,
 		choices,
 		answer,
@@ -38,6 +41,11 @@ const CreateQuestion = ({ onCancel, onDone }) => {
 
 	const handleQuestionChange = ({ target: { value } }) => {
 		setQuestion(value);
+	};
+
+	const handlePointsChange = ({ target: { value } }) => {
+		const numValue = value === '' ? value : Number(value);
+		setPoints(numValue);
 	};
 
 	const handleTypeChange = ({ target: { value } }) => {
@@ -85,6 +93,18 @@ const CreateQuestion = ({ onCancel, onDone }) => {
 				value={question}
 				autoComplete="off"
 				onChange={handleQuestionChange}
+			/>
+			<TextField
+				margin="normal"
+				id="deliverable-points"
+				label="Question Points"
+				type="number"
+				fullWidth
+				size="small"
+				variant="outlined"
+				value={points}
+				autoComplete="off"
+				onChange={handlePointsChange}
 			/>
 			<FormControl fullWidth size="small" margin="normal">
 				<InputLabel id="deliverable-type-label">

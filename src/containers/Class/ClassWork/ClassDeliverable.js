@@ -134,14 +134,53 @@ const ClassDeliverable = ({ data }) => {
 							Preview {deliverableType}
 						</Button>
 					)}
-					{user && user.role === 'student' && isActive && (
-						<Button
-							variant="contained"
-							onClick={attemptDeliverable}
-						>
-							Attempt {deliverableType}
-						</Button>
-					)}
+					{user &&
+						user.role === 'student' &&
+						isActive &&
+						!data.attempted && (
+							<Button
+								variant="contained"
+								onClick={attemptDeliverable}
+							>
+								Attempt {deliverableType}
+							</Button>
+						)}
+					{user &&
+						user.role === 'student' &&
+						data.attempted &&
+						!data.published && (
+							<Typography
+								sx={{ fontWeight: 'bold', fontStyle: 'italic' }}
+							>
+								Submitted
+							</Typography>
+						)}
+					{user &&
+						user.role === 'student' &&
+						!data.attempted &&
+						!isActive && (
+							<Typography
+								sx={{ fontWeight: 'bold', fontStyle: 'italic' }}
+							>
+								Missed
+							</Typography>
+						)}
+					{user &&
+						user.role === 'student' &&
+						data.attempted &&
+						data.published && (
+							<Typography
+								sx={{
+									fontWeight: 'bold',
+									fontSize: '30px',
+									border: '3px solid rgb(25, 118, 210)',
+									padding: '4px 20px',
+									borderRadius: '4px',
+								}}
+							>
+								{data.grade}/100
+							</Typography>
+						)}
 				</Box>
 			</Box>
 		</Card>
