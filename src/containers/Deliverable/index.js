@@ -15,17 +15,29 @@ const Deliverable = () => {
 	const { deliverableUuid } = useParams();
 	const navigate = useNavigate();
 	const preview = !!searchParams.get('preview');
+	const studentUuid = searchParams.get('studentUuid');
 
 	console.log({ data });
 
 	useEffect(() => {
-		deliverablesAPI.get(deliverableUuid, preview).then((response) => {
-			if (preview) {
-				setAnswers([...response.deliverable.questions]);
-			}
-			setData(response.deliverable);
-		});
-	}, [deliverableUuid, preview]);
+		if (studentUuid) {
+			attemptsAPI.get(deliverableUuid, studentUuid).then((response) => {
+				console.log(response.attempt);
+				setData({
+					...response.attempt.deliverable,
+					...response.attempt,
+				});
+				setAnswers([...response.attempt.questions]);
+			});
+		} else {
+			deliverablesAPI.get(deliverableUuid, preview).then((response) => {
+				if (preview) {
+					setAnswers([...response.deliverable.questions]);
+				}
+				setData(response.deliverable);
+			});
+		}
+	}, [deliverableUuid, preview, studentUuid]);
 
 	const handleAnswer = (question, index) => (answer) => {
 		if (preview) return;
@@ -130,12 +142,42 @@ const Deliverable = () => {
 								{data.questions.length}
 							</Typography>
 						</Box>
+						{preview && studentUuid && data.student && (
+							<Box
+								sx={{
+									display: 'flex',
+									justifyContent: 'space-between',
+									flexDirection: 'row',
+									border: '1px solid rgba(0,0,0,0.5)',
+									padding: '10px',
+									borderRadius: '4px',
+									mt: 3,
+								}}
+							>
+								<Typography
+									variant="h6"
+									sx={{ fontWeight: 'bold' }}
+								>
+									{`Name: ${data.student.firstName} ${data.student.lastName}`}
+								</Typography>
+								<Typography
+									variant="h6"
+									sx={{ fontWeight: 'bold' }}
+								>
+									{`Grade: ${data.grade}/100`}
+								</Typography>
+							</Box>
+						)}
 						<Box sx={{ mt: 4 }}>
 							{data.questions.map((q, i) => (
 								<SolvableQuestion
 									sx={{
 										mb: 2,
-										border: '1px solid rgba(0, 0, 0, 0.23)',
+										border: !!studentUuid
+											? q.correct
+												? '2px solid #4caf50'
+												: '2px solid #ef5350'
+											: '1px solid rgba(0, 0, 0, 0.23)',
 										borderRadius: '4px',
 										p: '20px',
 									}}
@@ -144,6 +186,7 @@ const Deliverable = () => {
 									onAnswer={handleAnswer(q, i)}
 									questionIndex={i + 1}
 									disabled={preview}
+									correct={!!studentUuid}
 								/>
 							))}
 						</Box>

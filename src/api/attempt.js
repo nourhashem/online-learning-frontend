@@ -2,7 +2,8 @@ import request from 'api';
 
 const getAll = (deliverableUuid) =>
 	request('get', '/attempts', { deliverableUuid });
-const get = (attemptUuid) => request('get', `/attempts/${attemptUuid}`);
+const get = (deliverableUuid, studentUuid) =>
+	request('get', '/attempts/student', { deliverableUuid, studentUuid });
 const add = (data, deliverableUuid) => {
 	return request('post', '/attempts', { data, deliverableUuid });
 };

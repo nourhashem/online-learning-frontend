@@ -1,7 +1,14 @@
 import Question from 'containers/Class/ClassWork/Question';
 import React, { useState } from 'react';
 
-const SolvableQuestion = ({ sx, data, onAnswer, questionIndex, disabled }) => {
+const SolvableQuestion = ({
+	sx,
+	data,
+	onAnswer,
+	questionIndex,
+	disabled,
+	correct,
+}) => {
 	const [answer, setAnswer] = useState(disabled ? data.answer : '');
 
 	const handleAnswerChange = (answer) => {
@@ -21,6 +28,7 @@ const SolvableQuestion = ({ sx, data, onAnswer, questionIndex, disabled }) => {
 			data={getQuestionData()}
 			onAnswer={handleAnswerChange}
 			questionIndex={questionIndex}
+			correct={correct}
 		/>
 	);
 };
