@@ -1,0 +1,11 @@
+.classStudents {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+	& > div {
+		border-radius: 10px;
+		width: 100%;
+		max-width: 900px;
+	}
+}

@@ -12,6 +12,7 @@ import ClassChat from 'containers/Class/ClassChat';
 import ClassStream from 'containers/Class/ClassStream';
 import Main from 'containers/Main';
 import Deliverable from 'containers/Deliverable';
+import ClassStudents from 'containers/Class/ClassStudents';
 
 const App = () => {
 	const authenticated = useSelector((state) => state.app.authenticated);
@@ -36,6 +37,7 @@ const App = () => {
 					<Route index element={<ClassStream />} />
 					<Route path="chat" element={<ClassChat />} />
 					<Route path="work" element={<ClassWork />} />
+					<Route path="students" element={<ClassStudents />} />
 				</Route>
 				<Route
 					path="deliverable/:deliverableUuid"

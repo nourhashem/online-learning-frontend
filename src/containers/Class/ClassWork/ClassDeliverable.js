@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	Card,
+	Typography,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+} from '@mui/material';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import attemptAPI from 'api/attempt';
+import deliverableAPI from 'api/deliverable';
 import AttemptItem from './AttemptItem';
 
 const ClassDeliverable = ({ data }) => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.app.user);
 	const [showAttempts, setShowAttempts] = useState(false);
+	const [publishDialogOpen, setPublishDialogOpen] = useState(false);
+	const [showPublishButton, setShowPublishButton] = useState(!data.published);
 	const [attempts, setAttempts] = useState([]);
 	const [nowUnix, setNowUnix] = useState(Date.now() / 1000);
 	const activationDate = moment.unix(data.activationDate);
@@ -66,6 +79,27 @@ const ClassDeliverable = ({ data }) => {
 		}
 	};
 
+	const handleOpenPublishDialog = () => {
+		setPublishDialogOpen(true);
+	};
+
+	const handleClosePublishDialog = () => {
+		setPublishDialogOpen(false);
+	};
+
+	const handlePublishGrades = () => {
+		deliverableAPI.publish(data.uuid).then(() => {
+			setPublishDialogOpen(false);
+			setShowPublishButton(false);
+		});
+	};
+
+	const handleViewAttempt = () => {
+		navigate(
+			`/dashboard/deliverable/${data.uuid}?preview=true&studentUuid=${user.uuid}`
+		);
+	};
+
 	return (
 		<Card sx={{ p: 2, mb: 3 }}>
 			<Box>
@@ -95,9 +129,6 @@ const ClassDeliverable = ({ data }) => {
 				</Box>
 				<Box
 					sx={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'flex-end',
 						mt: 2,
 					}}
 				>
@@ -154,41 +185,9 @@ const ClassDeliverable = ({ data }) => {
 							display: 'flex',
 							flexDirection: 'row',
 							alignItems: 'center',
+							justifyContent: 'flex-end',
 						}}
 					>
-						{user && user.role === 'instructor' && (
-							<>
-								<Button
-									variant="contained"
-									onClick={toggleViewAttempts}
-									color="error"
-									sx={{
-										mr: 2,
-									}}
-								>
-									{showAttempts
-										? 'Hide Attempts'
-										: 'Show Attempts'}
-								</Button>
-								<Button
-									variant="contained"
-									onClick={previewDeliverable}
-								>
-									Preview {deliverableType}
-								</Button>
-							</>
-						)}
-						{user &&
-							user.role === 'student' &&
-							isActive &&
-							!data.attempted && (
-								<Button
-									variant="contained"
-									onClick={attemptDeliverable}
-								>
-									Attempt {deliverableType}
-								</Button>
-							)}
 						{user &&
 							user.role === 'student' &&
 							data.attempted &&
@@ -219,17 +218,82 @@ const ClassDeliverable = ({ data }) => {
 							user.role === 'student' &&
 							data.attempted &&
 							data.published && (
-								<Typography
+								<>
+									<Typography
+										sx={{
+											fontWeight: 'bold',
+											border: '2px solid rgb(25, 118, 210)',
+											padding: '4px 10px',
+											borderRadius: '4px',
+										}}
+									>
+										Grade: {data.grade}/100
+									</Typography>
+									<Button
+										variant="contained"
+										onClick={handleViewAttempt}
+										sx={{
+											ml: 2,
+										}}
+									>
+										View Attempt
+									</Button>
+								</>
+							)}
+					</Box>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							alignItems: 'center',
+							flexDirection: 'row',
+						}}
+					>
+						{user &&
+							user.role === 'instructor' &&
+							showPublishButton && (
+								<Button
+									variant="contained"
+									onClick={handleOpenPublishDialog}
+									color="secondary"
 									sx={{
-										fontWeight: 'bold',
-										fontSize: '30px',
-										border: '3px solid rgb(25, 118, 210)',
-										padding: '4px 20px',
-										borderRadius: '4px',
+										mr: 2,
 									}}
 								>
-									{data.grade}/100
-								</Typography>
+									Publish Grades
+								</Button>
+							)}
+						{user && user.role === 'instructor' && (
+							<>
+								<Button
+									variant="contained"
+									onClick={previewDeliverable}
+									sx={{
+										mr: 2,
+									}}
+								>
+									Preview {deliverableType}
+								</Button>
+								<Button
+									variant="contained"
+									onClick={toggleViewAttempts}
+								>
+									{showAttempts
+										? 'Hide Attempts'
+										: 'Show Attempts'}
+								</Button>
+							</>
+						)}
+						{user &&
+							user.role === 'student' &&
+							isActive &&
+							!data.attempted && (
+								<Button
+									variant="contained"
+									onClick={attemptDeliverable}
+								>
+									Attempt {deliverableType}
+								</Button>
 							)}
 					</Box>
 				</Box>
@@ -237,7 +301,7 @@ const ClassDeliverable = ({ data }) => {
 			{showAttempts && (
 				<Box
 					sx={{
-						mt: 4,
+						mt: 2,
 					}}
 				>
 					<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
@@ -273,6 +337,29 @@ const ClassDeliverable = ({ data }) => {
 					)}
 				</Box>
 			)}
+			<Dialog open={publishDialogOpen} onClose={handleClosePublishDialog}>
+				<DialogTitle>{'Publish Grades'}</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						Are you sure you want to publish the grades for this
+						deliverable?
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button size="small" onClick={handleClosePublishDialog}>
+						Cancel
+					</Button>
+					<Button
+						onClick={handlePublishGrades}
+						autoFocus
+						variant="contained"
+						size="small"
+						color="secondary"
+					>
+						Publish
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Card>
 	);
 };

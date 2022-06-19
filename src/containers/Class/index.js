@@ -9,6 +9,8 @@ const Class = () => {
 		? 1
 		: path.includes('chat')
 		? 2
+		: path.includes('students')
+		? 3
 		: 0;
 	const [tabIndex, setTabIndex] = React.useState(startingIndex);
 	const handleChangeTab = (event, newValue) => {
@@ -24,6 +26,7 @@ const Class = () => {
 				/>
 				<Tab LinkComponent={Link} to="work" label="Classwork" />
 				<Tab LinkComponent={Link} to="chat" label="Chat" />
+				<Tab LinkComponent={Link} to="students" label="Students" />
 			</Tabs>
 			<Outlet />
 		</Box>

@@ -49,9 +49,6 @@ const ClassWork = () => {
 			<Box className="classWorkContainer">
 				{!creationMode && (
 					<Box className="classWorkHeader">
-						<Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-							Class Deliverables
-						</Typography>
 						{user && user.role === 'instructor' && (
 							<Fab
 								onClick={handleCreateDeliverable}
