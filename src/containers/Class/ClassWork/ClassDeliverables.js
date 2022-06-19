@@ -5,7 +5,7 @@ import './style.scss';
 
 const ClassDeliverables = ({ data }) => {
 	return (
-		<Box sx={{ mt: 5 }}>
+		<Box sx={{ mt: 2 }}>
 			{!data.length && (
 				<Box className="noDeliverables">
 					<span>No Deliverables yet.</span>

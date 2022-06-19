@@ -222,7 +222,6 @@ const ClassDeliverable = ({ data }) => {
 									<Typography
 										sx={{
 											fontWeight: 'bold',
-											border: '2px solid rgb(25, 118, 210)',
 											padding: '4px 10px',
 											borderRadius: '4px',
 										}}

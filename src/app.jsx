@@ -12,6 +12,7 @@ import ClassChat from 'containers/Class/ClassChat';
 import ClassStream from 'containers/Class/ClassStream';
 import Main from 'containers/Main';
 import Deliverable from 'containers/Deliverable';
+import Student from 'containers/Student';
 import ClassStudents from 'containers/Class/ClassStudents';
 
 const App = () => {
@@ -43,6 +44,7 @@ const App = () => {
 					path="deliverable/:deliverableUuid"
 					element={<Deliverable />}
 				/>
+				<Route path="student/:studentUuid" element={<Student />} />
 			</Route>
 			<Route path="*" element={<NotFound />} />
 		</Routes>

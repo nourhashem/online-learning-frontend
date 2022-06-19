@@ -1,57 +1,57 @@
 .classWork {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  .classWorkContainer {
-    border-radius: 10px;
-    width: 100%;
-    max-width: 900px;
-    .classWorkHeader {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-    .classWorkBody {
-      .noDeliverables {
-        height: 400px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #909090;
-      }
-      .createDeliverable {
-        padding-bottom: 40px;
-        .metadata {
-          display: flex;
-          flex-direction: column;
-          padding: 20px;
-        }
-        .questions {
-          padding: 20px;
-          margin-top: 40px;
-          .addQuestion {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-            font-weight: bold;
-            color: #1976d2;
-            cursor: pointer;
-            filter: brightness(75%);
-          }
-          .createQuestion {
-            border: 1px solid #1976d2;
-            padding: 20px;
-            border-radius: 4px;
-          }
-        }
-      }
-      .question {
-        border: 1px solid rgba(0, 0, 0, 0.23);
-        border-radius: 4px;
-        padding: 20px;
-      }
-    }
-  }
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 20px;
+	.classWorkContainer {
+		border-radius: 10px;
+		width: 100%;
+		max-width: 900px;
+		.classWorkHeader {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+		}
+		.classWorkBody {
+			.noDeliverables {
+				height: 400px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: #909090;
+			}
+			.createDeliverable {
+				padding-bottom: 40px;
+				.metadata {
+					display: flex;
+					flex-direction: column;
+					padding: 20px;
+				}
+				.questions {
+					padding: 20px;
+					margin-top: 40px;
+					.addQuestion {
+						display: block;
+						width: 100%;
+						text-align: center;
+						padding: 10px 0;
+						font-weight: bold;
+						color: #1976d2;
+						cursor: pointer;
+						filter: brightness(75%);
+					}
+					.createQuestion {
+						border: 1px solid #1976d2;
+						padding: 20px;
+						border-radius: 4px;
+					}
+				}
+			}
+			.question {
+				border: 1px solid rgba(0, 0, 0, 0.23);
+				border-radius: 4px;
+				padding: 20px;
+			}
+		}
+	}
 }
