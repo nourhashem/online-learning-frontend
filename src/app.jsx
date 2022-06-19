@@ -44,7 +44,10 @@ const App = () => {
 					path="deliverable/:deliverableUuid"
 					element={<Deliverable />}
 				/>
-				<Route path="student/:studentUuid" element={<Student />} />
+				<Route
+					path="student/:studentUuid/:classroomUuid"
+					element={<Student />}
+				/>
 			</Route>
 			<Route path="*" element={<NotFound />} />
 		</Routes>

@@ -19,7 +19,7 @@ const ClassStudents = () => {
 	}, [classroomUuid]);
 
 	const handleViewClasswork = (studentUuid) => () => {
-		navigate(`/dashboard/student/${studentUuid}`);
+		navigate(`/dashboard/student/${studentUuid}/${classroomUuid}`);
 	};
 
 	return (
@@ -66,11 +66,9 @@ const ClassStudents = () => {
 										'&:last-child': { border: 0 },
 										paddingBottom: 1,
 									}}
+									key={student.uuid}
 								>
-									<UserItem
-										data={student}
-										key={student.uuid}
-									/>
+									<UserItem data={student} />
 									{user && user.role === 'instructor' && (
 										<Button
 											onClick={handleViewClasswork(
