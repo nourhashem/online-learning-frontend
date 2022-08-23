@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ClassPost from './ClassPost';
 import CreatePost from './CreatePost';
 import { Typography } from '@mui/material';
@@ -9,11 +9,14 @@ import postAPI from 'api/post';
 const ClassPosts = (props) => {
   const { classroomUuid } = useParams();
   const [classroomPosts, setClassroomPosts] = useState([]);
-  useEffect(() => {
+  const fetchPosts = useCallback(() => {
     postAPI.getAll(classroomUuid).then(({ posts }) => {
       setClassroomPosts(posts.sort((a, b) => b.date.localeCompare(a.date)));
     });
   }, [classroomUuid]);
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
   const onAddComment = (postUuid) => {
     postAPI.get(postUuid).then((res) => {
       const { post } = res;
@@ -35,6 +38,7 @@ const ClassPosts = (props) => {
               key={post.uuid}
               data={post}
               onAddComment={onAddComment}
+              onUpdate={fetchPosts}
             />
           ))}
       </Box>
